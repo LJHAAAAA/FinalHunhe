@@ -84,8 +84,8 @@ export default class Me extends Component {
     }
 
     back = () => {
-        AsyncStorage.clear();
         Actions.login();
+        AsyncStorage.clear();
     }
 
     componentDidMount(){

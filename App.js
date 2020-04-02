@@ -3,7 +3,7 @@ import {Router, Overlay, Scene, Tabs, Drawer, Lightbox, Modal, Actions} from 're
 import { Icon } from '@ant-design/react-native';
 import SplashScreen from 'react-native-splash-screen';
 
-import Home from './src/home/Home';
+import Test from './src/home/Home1';
 import Goods from './src/goods/Goods';
 import Login from './src/common/Login'
 
@@ -30,8 +30,6 @@ export default class App extends Component{
 	}
 
 	componentDidMount(){
-		// console.log(Actions.currentScene);
-		// AsyncStorage.clear();
 		AsyncStorage.getItem('isInstall')
 		.then(res=>{
 			console.log('isinstall',res)
@@ -74,12 +72,21 @@ export default class App extends Component{
 		}
 		return(
 			<Router hideNavBar
-				backAndroidHandler={()=>{
-					console.log(Actions.currentScene);
-					if(Actions.currentScene != 'login'){
-						// Actions.pop();
+				backAndroidHandler={()=>{	
+					if(Actions.currentScene == 'login' || Actions.currentScene == null){
+						if(new Date().getTime()-now<2000){
+							BackHandler.exitApp();
+						}else{
+							ToastAndroid.show('确定要退出吗',100);
+							now = new Date().getTime();
+							return true;
+						}
+					}
+					else if(Actions.currentScene != 'home'){
+						Actions.pop();
 						return true;
-					}else{
+					}
+					else{
 						if(new Date().getTime()-now<2000){
 							BackHandler.exitApp();
 						}else{
@@ -110,7 +117,7 @@ export default class App extends Component{
 							}
 						>
 							<Scene key='home' 
-								component={Home}
+								component={Test}
 							/>
 						</Scene>
 						{/* 商品分类 */}
